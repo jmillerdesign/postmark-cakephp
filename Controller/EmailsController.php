@@ -81,6 +81,8 @@ class EmailsController extends PostmarkAppController {
 			'html'        => $email->HtmlBody(),
 			'attachments' => $attachments
 		)));
+
+		die('OK');
 	}
 
 }
