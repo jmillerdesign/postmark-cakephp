@@ -47,6 +47,9 @@ If you want your connection to Postmark to be encrypted, simply change the uri t
 Make sure to modified the API key to match the credentials for your Postmark server rack instance.
 
 
+## Outbound Email
+
+
 ### Usage
 
 This plugin uses [CakeEmail](http://book.cakephp.org/2.0/en/core-utility-libraries/email.html), and works virtually the same.
@@ -123,6 +126,36 @@ $this->log($result, 'debug');
 If there are any errors, they'll be included in the response. See the Postmark API documentation for error code detail:
 
 http://developer.postmarkapp.com/#api-error-codes
+
+
+## Inbound Email
+
+
+Thanks to [J. Miller](https://github.com/jmillerdesign), this plugin can also handle inbound emails.
+
+
+### Usage
+
+
+Add a Inbound Hook URL to your rack settings on postmarkapp.com (replace example.com with your live domain URL):
+http://example.com/postmark/emails/incoming
+
+Create an event handler if you want to do something whenever you receive an email. In your controller:
+
+```php
+<?php
+public function beforeFilter() {
+	parent::beforeFilter();
+	$this->getEventManager()->attach(array($this, 'handleInboundEmail'), 'Postmark.inbound');
+}
+
+public function handleInboundEmail($event = null) {
+	// Do something with the event
+}
+```
+
+Attachments are automatically saved and can be publicly accessed at:
+http://example.com/postmark/attachments/{MessageID}/{AttachmentName}
 
 
 ### CakePHP 1.3+
