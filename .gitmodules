@@ -1,0 +1,3 @@
+[submodule "Vendor/Inbound"]
+	path = Vendor/Inbound
+	url = https://github.com/jjaffeux/postmark-inbound-php.git
