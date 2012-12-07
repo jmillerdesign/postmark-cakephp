@@ -138,7 +138,7 @@ Thanks to [J. Miller](https://github.com/jmillerdesign), this plugin can also ha
 
 
 Add a Inbound Hook URL to your rack settings on postmarkapp.com (replace example.com with your live domain URL):
-http://example.com/postmark/emails/incoming
+http://example.com/postmark/emails/inbound
 
 Create an event handler if you want to do something whenever you receive an email. In your controller:
 
