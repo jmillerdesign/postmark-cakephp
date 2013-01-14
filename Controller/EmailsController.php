@@ -41,7 +41,12 @@ class EmailsController extends PostmarkAppController {
 		\Postmark\Autoloader::register();
 
 		// Parse inbound email
-		$email = new \Postmark\Inbound(file_get_contents('php://input'));
+		try {
+			$email = new \Postmark\Inbound(file_get_contents('php://input'));
+		} catch (Exception $e) {
+			header('Content-type: text/html; charset=UTF-8', true, 400);
+			die($e->getMessage());
+		}
 
 		// Download attachments
 		$attachments = array();
