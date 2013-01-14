@@ -144,13 +144,32 @@ Create an event handler if you want to do something whenever you receive an emai
 
 ```php
 <?php
-public function beforeFilter() {
-	parent::beforeFilter();
-	$this->getEventManager()->attach(array($this, 'handleInboundEmail'), 'Postmark.inbound');
-}
+/**
+ * Handle inbound email
+ *
+ * @param CakeEvent $event Event object
+ * @return void
+ */
+	public function handleInboundEmail($event) {
+		// Do something with the event
+		CakeLog::write('debug', print_r($event->data, true));
+	}
+```
 
-public function handleInboundEmail($event = null) {
-	// Do something with the event
+In Config/bootstrap.php, add the following, to send the event to your controller. Replace "YourController" with the name of the controller where you placed the handleInboundEmail method.
+
+```php
+<?php
+/**
+ * Handle inbound Postmark email
+ * Pass it off to YourController->handleInboundEmail()
+ */
+App::uses('CakeEventManager', 'Event');
+CakeEventManager::instance()->attach('handleInboundEmail', 'Postmark.inbound');
+function handleInboundEmail($event) {
+	App::uses('YourController', 'Controller');
+	$controller = new YourController();
+	$controller->handleInboundEmail($event);
 }
 ```
 
